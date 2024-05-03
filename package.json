@@ -2,23 +2,26 @@
   "name": "szurubooru-api",
   "version": "1.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "prepare": "husky install",
-    "dev": "ts-node src/app.ts"
+    "dev": "npx tsx src/app.ts"
   },
   "devDependencies": {
     "@types/node": "^20.12.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.2",
     "prettier": "2.8.4",
-    "ts-node": "^10.9.1",
+    "tsx": "^4.7.2",
     "typescript": "*"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "sharp": "^0.33.3"
+    "hydrus-api": "file:/home/yochyo/IdeaProjects/hydrus-api",
+    "sharp": "^0.33.3",
+    "szurubooru-api": "file:/home/yochyo/IdeaProjects/szurubooru-api"
   }
 }

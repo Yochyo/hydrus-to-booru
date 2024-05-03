@@ -1,0 +1,54 @@
+## Example Docker Compose configuration
+##
+## Use this as a template to set up docker-compose, or as guide to set up other
+## orchestration services
+version: '2'
+
+services:
+
+  server:
+    image: szurubooru/server:latest
+    restart: always
+    depends_on:
+      - sql
+    environment:
+      ## These should be the names of the dependent containers listed below,
+      ## or FQDNs/IP addresses if these services are running outside of Docker
+      POSTGRES_HOST: sql
+      ## Credentials for database:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      ## Commented Values are Default:
+      #POSTGRES_DB: defaults to same as POSTGRES_USER
+      #POSTGRES_PORT: 5432
+      #LOG_SQL: 0 (1 for verbose SQL logs)
+#      THREADS:
+    volumes:
+      - "data:/data"
+      - "./server.yaml:/opt/app/config.yaml"
+
+  client:
+    restart: always
+    image: szurubooru/client:latest
+    depends_on:
+      - server
+    environment:
+      BACKEND_HOST: server
+      BASE_URL:
+    volumes:
+      - "data:/data:ro"
+    ports:
+      - "8080:80"
+
+  sql:
+    image: postgres:11-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+    volumes:
+      - "sql:/var/lib/postgresql/data"
+
+volumes:
+  sql:
+  data:
